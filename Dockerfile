@@ -21,18 +21,19 @@ RUN  apt-get update && apt-get install -y zip
 
 
 #mssql
-RUN apt-get update && apt-get install -y gnupg2
+RUN apt-get update && apt-get upgrade
+RUN apt-get install -y gnupg2 && apt-get install -y gnupg2
 ENV ACCEPT_EULA=Y
 ARG DEBIAN_FRONTEND=noninteractive
-RUN apt-get install libaio1
-RUN apt-get update \
-    && curl  -s -N "https://packages.microsoft.com/keys/microsoft.asc" | apt-key add - \
-    && curl -s -N "https://packages.microsoft.com/config/debian/9/prod.list" > /etc/apt/sources.list.d/mssql-release.list \
-    && apt-get update \
-    && ACCEPT_EULA=Y apt-get install --yes --no-install-recommends msodbcsql17 mssql-tools \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* \
-    && rm -rf /tmp/*
+RUN apt-get install -y libaio1
+#RUN apt-get update \
+#    && curl  -s -N "https://packages.microsoft.com/keys/microsoft.asc" | apt-key add - \
+#    && curl -s -N "https://packages.microsoft.com/config/debian/9/prod.list" > /etc/apt/sources.list.d/mssql-release.list \
+#    && apt-get update \
+#    && ACCEPT_EULA=Y apt-get install --yes --no-install-recommends msodbcsql17 mssql-tools \
+#    && apt-get clean \
+#    && rm -rf /var/lib/apt/lists/* \
+#    && rm -rf /tmp/*
 RUN apt-get update \
     && apt-get -y --no-install-recommends install msodbcsql17 unixodbc-dev \
     && pecl install sqlsrv \
